@@ -5,12 +5,16 @@ class HabitTile extends StatelessWidget {
   final String habitName;
   final bool habitCompleted;
   final Function(bool?)? onChanged;
+  final Function(BuildContext)? settingsTapped;
+  final Function(BuildContext)? deleteTapped;
 
   const HabitTile({
     Key? key,
     required this.habitName,
     required this.habitCompleted,
-    this.onChanged,
+    required this.onChanged,
+    required this.settingsTapped,
+    required this.deleteTapped,
   }) : super(key: key);
 
   @override
@@ -19,22 +23,18 @@ class HabitTile extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Slidable(
         endActionPane: ActionPane(
-          motion: StretchMotion(),
+          motion: const StretchMotion(),
           children: [
             //settings option
             SlidableAction(
-              onPressed: (context) {
-
-              },
+              onPressed: settingsTapped,
               backgroundColor: Colors.grey.shade800,
               icon: Icons.settings,
               borderRadius: BorderRadius.circular(12),
             ),
             // delete option
             SlidableAction(
-              onPressed: (context) {
-
-              },
+              onPressed: deleteTapped,
               backgroundColor: Colors.red.shade300,
               icon: Icons.delete,
               borderRadius: BorderRadius.circular(12),
