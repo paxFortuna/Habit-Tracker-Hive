@@ -1,7 +1,7 @@
-
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../datetime/date_time.dart';
+
 // data structure
 // _myBox.get(String yyyymmdd) -> habitList
 // _myBox.get('START_DATE') -> yyyymmdd
@@ -11,13 +11,15 @@ import '../datetime/date_time.dart';
 // reference our box
 final _myBox = Hive.box('Habit_Database');
 
+
 class HabitDatabase {
   List todaysHabitList = [];
+  Map<DateTime, int> heatMapDataSet = {};
 
   // create initial default data when 1st approach
   void createDefaultData() {
     todaysHabitList = [
-      ['Run', false],
+      ['Run',  false],
       ['Read', false],
     ];
 
@@ -41,7 +43,7 @@ class HabitDatabase {
   }
 
   // update database (user input : checkbox, edit, delete, add)
-   void updateDatabase() {
+  void updateDatabase() {
     // update todays entry
     _myBox.put(todaysDateFormatted(), todaysHabitList);
 
@@ -56,23 +58,23 @@ class HabitDatabase {
   }
 
   void calculateHabitPercentages() {
-  int countCompleted = 0;
-  for (int i = 0; i < todaysHabitList.length; i++) {
-  if (todaysHabitList[i][1] == true) {
-  countCompleted++;
-  }
+    int countCompleted = 0;
+    for (int i = 0; i < todaysHabitList.length; i++) {
+      if (todaysHabitList[i][1] == true) {
+        countCompleted++;
+      }
+    }
+
+    String percent = todaysHabitList.isEmpty
+        ? '0.0'
+        : (countCompleted / todaysHabitList.length).toStringAsFixed(1);
+
+    // key: "PERCENTAGE_SUMMARY_yyyymmdd"
+    // value: string of 1dp number between 0.0-1.0 inclusive
+    _myBox.put("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
   }
 
-  String percent = todaysHabitList.isEmpty
-      ? '0.0'
-      : (countCompleted / todaysHabitList.length).toStringAsFixed(1);
-
-  // key: "PERCENTAGE_SUMMARY_yyyymmdd"
-  // value: string of 1dp number between 0.0-1.0 inclusive
-  _myBox.put("PERCENTAGE_SUMMARY_${todaysDateFormatted()}", percent);
-}
   void loadHeatMap() {
-
     DateTime startDate = createDateTimeObject(_myBox.get("START_DATE"));
 
     // count the number of days to load
@@ -104,9 +106,8 @@ class HabitDatabase {
         DateTime(year, month, day): (10 * strengthAsPercent).toInt(),
       };
 
-      // heatMapDataSet.addEntries(percentForEachDay.entries);
-      // print(heatMapDataSet);
+      heatMapDataSet.addEntries(percentForEachDay.entries);
+      print(heatMapDataSet);
     }
   }
-
 }
