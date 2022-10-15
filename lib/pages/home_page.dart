@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../components/habit_tile.dart';
+import '../components/my_alert_box.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,10 +29,42 @@ class _HomePageState extends State<HomePage> {
       todaysHabitList[index][1] = value;
     });
   }
+
+  // create a new habit
+  final _newHabitNameController = TextEditingController();
+  void createNewHabit() {
+    // show alert dialog for user to enter the new habit details
+    showDialog(context: context, builder: (context) {
+      return MyAlertBox(
+          controller: _newHabitNameController,
+          hintText: 'Enter habit name..',
+          onSave: saveNewHabit,        
+          onCancel: cancelNewHabit,
+      );
+    });
+  }
+
+  // save new habit
+  void saveNewHabit() {
+    // add new habit to todays habit list
+    setState(() {
+      todaysHabitList.add([_newHabitNameController.text, false]);
+    });
+  }
+
+  // cancel new habit
+  void cancelNewHabit() {
+    // clear textfield
+    _newHabitNameController.clear();
+    // pop dialog box
+    Navigator.of(context).pop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
+
       body: ListView.builder(
         itemCount: todaysHabitList.length,
         itemBuilder: (context, index) {
@@ -43,6 +76,10 @@ class _HomePageState extends State<HomePage> {
         },
 
       ),
+      floatingActionButton: FloatingActionButton(onPressed:
+      createNewHabit,),
+
     );
   }
+
 }
