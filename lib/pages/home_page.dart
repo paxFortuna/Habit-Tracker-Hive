@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habit_tracker_hive/components/drawer.dart';
 import 'package:habit_tracker_hive/data/habit_database.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -35,6 +36,7 @@ class _HomePageState extends State<HomePage> {
 
   // bool to control habit completed
   bool habitCompleted = false;
+
   // checkbox was tapped
   void checkBoxTapped(bool? value, int index) {
     setState(() {
@@ -130,9 +132,10 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: defaultBackgroundColor,
       appBar: AppBar(
-        title: const Text('Habit Tracker'),
+        title: const Text('일일 실행 일람표'),
+        centerTitle: true,
         backgroundColor: Colors.grey[700],
         actions: [
           IconButton(
@@ -141,13 +144,18 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
+      drawer: myDrawer,
       body: ListView(
         children: [
           // monthly summary heat map
-          MonthlySummary(
-            datasets: db.heatMapDataSet,
-            startDate: _myBox.get("START_DATE"),
+          Container(
+            color: Colors.purple[200],
+            child: MonthlySummary(
+              datasets: db.heatMapDataSet,
+              startDate: _myBox.get("START_DATE"),
+            ),
           ),
+          const SizedBox(height: 12),
           ListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -165,9 +173,9 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(height: 32),
         ],
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: createNewHabit,
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewHabit,
+      ),
     );
   }
 }

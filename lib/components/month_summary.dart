@@ -19,10 +19,10 @@ class MonthlySummary extends StatelessWidget {
       padding: const EdgeInsets.only(left: 16, top: 20, bottom: 20),
       child: HeatMap(
         startDate: createDateTimeObject(startDate),
-        endDate: DateTime.now().add(const Duration(days: 56)),
+        endDate: DateTime.now().add(const Duration(days: 52)),
         datasets: datasets,
         colorMode: ColorMode.color,
-        defaultColor: Colors.grey[200],
+        defaultColor: Colors.yellow[200],
         textColor: Colors.black87,
         showColorTip: false,
         showText: true,
