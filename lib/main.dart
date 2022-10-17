@@ -5,7 +5,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   // initialize hive
   await Hive.initFlutter();
-
   // open a box
   await Hive.openBox('Habit_Database');
 
