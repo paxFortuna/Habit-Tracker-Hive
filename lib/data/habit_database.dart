@@ -3,10 +3,10 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../datetime/date_time.dart';
 
 // data structure
-// _myBox.get(String yyyymmdd) -> habitList
-// _myBox.get('START_DATE') -> yyyymmdd
-// _myBox.get('CURRENT_HABIT_LIST') -> latest habit list
-// _myBox.get('PERCENTAGE_SUMMARY_yyyymmdd') -> 0.0 ~ 1.0
+  // _myBox.get(String yyyymmdd) -> habitList
+  // _myBox.get('START_DATE') -> yyyymmdd
+  // _myBox.get('CURRENT_HABIT_LIST') -> latest habit list
+  // _myBox.get('PERCENTAGE_SUMMARY_yyyymmdd') -> 0.0 ~ 1.0
 
 // reference our box
 final _myBox = Hive.box('Habit_Database');
